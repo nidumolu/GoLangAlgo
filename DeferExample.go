@@ -55,16 +55,19 @@ func printFileSize(f *os.File) (i int64, err error) {
 	fmt.Println("Dir(p):", filepath.Dir(f.Name()))
 	fmt.Println("Base(p):", filepath.Base(f.Name()))
 
-	fi, err := os.Stat(filepath.Join(filepath.Dir(f.Name()), "/", filepath.Base(f.Name())))
+	dir, file := filepath.Split(f.Name())
+	//fi, err := os.Stat(filepath.Join(filepath.Dir(f.Name()), "//", filepath.Base(f.Name())))
+	fmt.Println("1 FullPath of file:", dir, file)
 
-	fmt.Println("FullPath of file:", fi.Name())
+	fi, err := os.Stat(filepath.Join(dir, file))
+
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		return 0, err
 	}
 	// get the size
-	size := fi.Size()
-	return size, nil
+	fmt.Println("2 FullPath of file:", fi.Size(), "Bytes")
+	return fi.Size(), nil
 }
 
 func fileSize(path string) int64 {
